@@ -100,7 +100,23 @@ class Webo_Order_Notificaiton_Public {
 
 	}
 
-	public function webo_order_notificaiton_render_template() {
+	public function webo_order_notificaiton_render_template()
+	{
+		$args = array(
+			'numberposts' => -1,
+			'post_type'   => wc_get_order_types(),
+			'post_status' => array_keys( wc_get_order_statuses() ),
+			'order'       => 'DESC',
+			'orderby'     => 'date',
+			'date_query'  => array(
+				array(
+					'after' => '7 day ago'
+				)
+			)
+		);
+
+		$customer_orders = get_posts( $args );
+
 		ob_start();
 		require( WON_PLUGIN_PATH . 'public/partials/won-notification-template.php');
 		$html = ob_get_contents();
