@@ -33,6 +33,7 @@
 	position: absolute;
 	top: 0;
 	right: 5px;
+	cursor: pointer; 
 }
 #google-rating-widget.google-plus-rating {
 	display: none;

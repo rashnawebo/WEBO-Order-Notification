@@ -5,3 +5,13 @@
  .won-form-input {
      min-width: 300px;
  }
+.won-form-group {
+	max-width: 500px;
+}
+.won-form-group label, .won-form-group {
+	margin-bottom: 10px;
+}
+.won-form-group label {
+	display: block;
+	font-weight: 700;
+}

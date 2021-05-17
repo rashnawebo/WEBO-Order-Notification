@@ -126,7 +126,7 @@ class Webo_Order_Notificaiton_Public {
 			'orderby'     => 'date',
 			'date_query'  => array(
 				array(
-					'after' => $days .' day ago'
+					'after' => '1 day ago'
 				)
 			)
 		);
