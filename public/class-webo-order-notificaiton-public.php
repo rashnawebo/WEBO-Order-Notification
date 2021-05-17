@@ -102,6 +102,23 @@ class Webo_Order_Notificaiton_Public {
 
 	public function webo_order_notificaiton_render_template()
 	{
+		/**
+		 * This function is provided for displaying notification popup on the aite
+		 *
+		 * An instance of this class should be passed to the run() function
+		 * defined in Webo_Order_Notificaiton_Loader as all of the hooks are defined
+		 * in that particular class .
+		 *
+		 * Action hooked used: wp_footer
+		 * Inputs $days  Number of days that shows order
+		 * Input $cache_days Number of cache days
+		 *
+		 * The Webo_Order_Notificaiton_Loader will then create the relationship
+		 * between the defined hooks and the functions defined in this
+		 * class.
+		 */
+
+		//$days = $_POST['days'];
 		$args = array(
 			'numberposts' => -1,
 			'post_type'   => wc_get_order_types(),
@@ -116,15 +133,19 @@ class Webo_Order_Notificaiton_Public {
 		);
 
 		$customer_orders = get_posts( $args );
-		echo '<pre>';
-		var_dump($customer_orders);
-		echo '</pre>';
-		die();
-		ob_start();
-		require( WON_PLUGIN_PATH . 'public/partials/won-notification-template.php');
-		$html = ob_get_contents();
-		ob_end_clean();
-		echo $html;
+
+
+		if($customer_orders)
+		{
+			foreach ($customer_orders as $customer_order) 
+			{
+				ob_start();
+				require( WON_PLUGIN_PATH . 'public/partials/won-notification-template.php');
+				$html = ob_get_contents();
+				ob_end_clean();	
+				echo $html;
+			}			
+		}		
 	}
 
 }
