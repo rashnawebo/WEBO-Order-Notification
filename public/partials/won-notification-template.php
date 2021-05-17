@@ -1,31 +1,31 @@
+<?php
+
+$order = wc_get_order( $customer_order->ID );
+$order_data = $order->get_data();
+$products = $order->get_items();
+$order_billing_first_name = $order_data['billing']['first_name'];
+$order_billing_last_name = $order_data['billing']['last_name'];
+$order_time = $order->get_date_created();
+$order_time = strtotime($order_time);
+$time_diff = human_time_diff($order_time, strtotime(date("Y-m-d H:i:s")));
+
+	foreach ($products as $key => $product) {
+		$product_name = $product->get_name();
+		$product_id = $product->get_product_id();
+	}
+?>
 <div class="won webo-order-notification">
-	<a href="https://directoffice.com.au/product/atlanta-mobile-pedestal-2p-1f/" target="_blank">
+	<a href="<?= get_the_permalink($product_id); ?>" target="_blank">
 		<div class="won-notification">
 			<div class="won-product-image">
-				<img src="https://directoffice.com.au/wp-content/uploads/2017/04/Sliver-02-150x150.jpg">
+				<img src="<?= get_the_post_thumbnail_url($product_id, 'thumbnail') ?>">
 			</div>
 			<div class="won-order-content">
-				<p>Rashna M recently purchased</p>
-				<p><b>Atlanta Mobile Pedestal</b></p>
-				<small>About 3 days ago</small>
+				<p><?php echo $order_billing_first_name.' '.strtoupper($order_billing_last_name[0]); ?> M recently purchased</p>
+				<p><b><?= $product_name ?></b></p>
+				<small>About <?= $time_diff ?> ago</small>
 			</div>
 		</div>
 	</a>	
 	<span class="won-close">x</span>
 </div>
-
-<!-- <div class="won webo-order-notification">
-	<a href="https://directoffice.com.au/product/folkstone-straight-desk/" target="_blank">
-		<div class="won-notification">
-			<div class="won-product-image">
-				<img src="https://directoffice.com.au/wp-content/uploads/2016/12/Untitled-design-46-150x150.png">
-			</div>
-			<div class="won-order-content">
-				<p>Vijay R recently purchased</p>
-				<p><b>Folkstone Straight Desk</b></p>
-				<small>About 1 hour ago</small>
-			</div>
-		</div>	
-	</a>
-	<span class="won-close">x</span>
-</div> -->

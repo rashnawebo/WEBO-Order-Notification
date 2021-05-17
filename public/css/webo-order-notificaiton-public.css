@@ -34,3 +34,6 @@
 	top: 0;
 	right: 5px;
 }
+#google-rating-widget.google-plus-rating {
+	display: none;
+}
