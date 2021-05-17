@@ -100,4 +100,12 @@ class Webo_Order_Notificaiton_Public {
 
 	}
 
+	public function webo_order_notificaiton_render_template() {
+		ob_start();
+		require( WON_PLUGIN_PATH . 'public/partials/won-notification-template.php');
+		$html = ob_get_contents();
+		ob_end_clean();
+		echo $html;
+	}
+
 }

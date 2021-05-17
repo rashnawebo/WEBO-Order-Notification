@@ -2,3 +2,35 @@
  * All of the CSS for your public-facing functionality should be
  * included in this file.
  */
+
+.won.webo-order-notification {
+	box-shadow: 0 3px 6px #00000029;
+	background: #fff;
+    width: 361px;
+    position: fixed;
+    bottom: 15px;
+    left: 10px;
+    z-index: 9;
+}
+.won.webo-order-notification a {
+	color: #222;
+}
+.won.webo-order-notification .won-product-image img {
+	width:90px;
+}
+.won-notification {
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+.won-product-image {
+	border-right: 1px solid #ccc;
+}
+.won-order-content {
+	padding: 8px;
+}
+.won-close {
+	position: absolute;
+	top: 0;
+	right: 5px;
+}
