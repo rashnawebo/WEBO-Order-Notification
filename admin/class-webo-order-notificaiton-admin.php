@@ -119,11 +119,17 @@ class Webo_Order_Notificaiton_Admin {
 	public function won_save_notification_setting()
 	{
 		$num_of_days  = sanitize_text_field($_POST['num_of_days']);
-		$cache_expiry = sanitize_text_field($_POST['cache_expiry']);
+		$cookie_expiry = sanitize_text_field($_POST['cookie_expiry']);
+
+		if ( ! is_numeric($num_of_days) || ! is_numeric($cookie_expiry)) {
+			$redirect = add_query_arg( 'status', 'validation_error', wp_get_referer() );
+			wp_redirect( $redirect );
+			exit;
+		}
 
 		$data = array(
-			'num_of_days' => $num_of_days,
-			'cache_expiry' => $cache_expiry * 60
+			'num_of_days'   => $num_of_days,
+			'cookie_expiry' => $cookie_expiry * 60
 		);
 
 		$updated = update_option('notification_setting', json_encode($data));

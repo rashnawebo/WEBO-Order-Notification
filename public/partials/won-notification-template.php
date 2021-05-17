@@ -26,6 +26,6 @@ $time_diff = human_time_diff($order_time, strtotime(date("Y-m-d H:i:s")));
 				<small>About <?= $time_diff ?> ago</small>
 			</div>
 		</div>
-	</a>	
+	</a>
 	<span class="won-close">x</span>
 </div>
