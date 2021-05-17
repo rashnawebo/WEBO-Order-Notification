@@ -29,4 +29,14 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
+
+	setInterval(function()
+	{ 
+		$(".won.webo-order-notification").stop().slideToggle('slow'); }, 8000);
+    	$(".won-close").click(function() 
+    	{
+    		$(".won.webo-order-notification").stop().slideToggle('slow');
+      	});
+    }
+
 })( jQuery );

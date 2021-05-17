@@ -118,7 +118,6 @@ class Webo_Order_Notificaiton_Public {
 		 * class.
 		 */
 
-		//$days = $_POST['days'];
 		$args = array(
 			'numberposts' => -1,
 			'post_type'   => wc_get_order_types(),
@@ -127,7 +126,7 @@ class Webo_Order_Notificaiton_Public {
 			'orderby'     => 'date',
 			'date_query'  => array(
 				array(
-					'after' => '1 day ago'
+					'after' => $days .' day ago'
 				)
 			)
 		);
