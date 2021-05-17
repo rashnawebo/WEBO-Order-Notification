@@ -10,7 +10,7 @@
 				<small>About 3 days ago</small>
 			</div>
 		</div>
-	</a>	
+	</a>
 	<span class="won-close">x</span>
 </div>
 
@@ -25,7 +25,7 @@
 				<p><b>Folkstone Straight Desk</b></p>
 				<small>About 1 hour ago</small>
 			</div>
-		</div>	
+		</div>
 	</a>
 	<span class="won-close">x</span>
 </div> -->
