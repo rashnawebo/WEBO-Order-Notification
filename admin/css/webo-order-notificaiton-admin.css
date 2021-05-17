@@ -2,3 +2,6 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+ .won-form-input {
+     min-width: 300px;
+ }

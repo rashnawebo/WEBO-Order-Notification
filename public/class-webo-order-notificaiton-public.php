@@ -110,13 +110,16 @@ class Webo_Order_Notificaiton_Public {
 			'orderby'     => 'date',
 			'date_query'  => array(
 				array(
-					'after' => '7 day ago'
+					'after' => '1 day ago'
 				)
 			)
 		);
 
 		$customer_orders = get_posts( $args );
-
+		echo '<pre>';
+		var_dump($customer_orders);
+		echo '</pre>';
+		die();
 		ob_start();
 		require( WON_PLUGIN_PATH . 'public/partials/won-notification-template.php');
 		$html = ob_get_contents();

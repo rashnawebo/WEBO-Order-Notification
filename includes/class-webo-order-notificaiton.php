@@ -157,6 +157,9 @@ class Webo_Order_Notificaiton {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
+		$this->loader->add_action('admin_menu', $plugin_admin, 'won_notification_setting_menu');
+		$this->loader->add_action( 'admin_post_won_save_notification_setting', $plugin_admin,  'won_save_notification_setting' );
+		$this->loader->add_action( 'admin_post_nopriv_won_save_notification_setting', $plugin_admin,  'won_save_notification_setting' );
 	}
 
 	/**

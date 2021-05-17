@@ -30,7 +30,9 @@ class Webo_Order_Notificaiton_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-
+		if ( ! class_exists( 'WooCommerce' ) ) {
+			exit( sprintf( 'WooCommerce Must be activated before activating this plugin.' ) );
+		}
 	}
 
 }

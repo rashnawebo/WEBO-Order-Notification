@@ -100,4 +100,39 @@ class Webo_Order_Notificaiton_Admin {
 
 	}
 
+	//create menu
+	public function won_notification_setting_menu()
+	{
+		add_submenu_page( 'options-general.php', 'Webo Order Notification', 'Order Notification', 'manage_options', 'webo-order-notification', array($this, 'webo_order_notificaiton'));
+	}
+
+	//display template
+	public function webo_order_notificaiton() {
+		ob_start();
+		include_once WON_PLUGIN_PATH . 'admin/partials/order-notification-template.php';
+		$template = ob_get_contents();
+		ob_clean();
+		echo $template;
+	}
+
+	//save settings
+	public function won_save_notification_setting()
+	{
+		$num_of_days  = sanitize_text_field($_POST['num_of_days']);
+		$cache_expiry = sanitize_text_field($_POST['cache_expiry']);
+
+		$data = array(
+			'num_of_days' => $num_of_days,
+			'cache_expiry' => $cache_expiry * 60
+		);
+
+		$updated = update_option('notification_setting', json_encode($data));
+		if ($updated) {
+			$redirect = add_query_arg( 'status', 'success', wp_get_referer() );
+		} else {
+			$redirect = add_query_arg( 'status', 'error', wp_get_referer() );
+		}
+		wp_redirect( $redirect );
+		exit;
+	}
 }
