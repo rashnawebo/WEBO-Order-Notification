@@ -81,3 +81,7 @@ function run_webo_order_notificaiton() {
 
 }
 run_webo_order_notificaiton();
+
+if ( ! wp_next_scheduled( 'won_send_order_push_notification_event' ) ) {
+	wp_schedule_event( time(), 'won_every_minutes', 'won_send_order_push_notification_event');
+}

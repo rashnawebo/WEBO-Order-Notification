@@ -118,10 +118,11 @@ class Webo_Order_Notificaiton_Admin {
 	//save settings
 	public function won_save_notification_setting()
 	{
-		$num_of_days  = sanitize_text_field($_POST['num_of_days']);
-		$cookie_expiry = sanitize_text_field($_POST['cookie_expiry']);
+		$num_of_days    = sanitize_text_field($_POST['num_of_days']);
+		$cookie_expiry  = sanitize_text_field($_POST['cookie_expiry']);
+		$popup_interval = sanitize_text_field($_POST['popup_interval']);
 
-		if ( ! is_numeric($num_of_days) || ! is_numeric($cookie_expiry)) {
+		if ( ! is_numeric($num_of_days) || ! is_numeric($cookie_expiry) || ! is_numeric($popup_interval)) {
 			$redirect = add_query_arg( 'status', 'validation_error', wp_get_referer() );
 			wp_redirect( $redirect );
 			exit;
@@ -129,7 +130,8 @@ class Webo_Order_Notificaiton_Admin {
 
 		$data = array(
 			'num_of_days'   => $num_of_days,
-			'cookie_expiry' => $cookie_expiry * 60
+			'cookie_expiry' => $cookie_expiry * 60,
+			'popup_interval' => $popup_interval
 		);
 
 		$updated = update_option('notification_setting', json_encode($data));
