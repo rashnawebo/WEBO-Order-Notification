@@ -140,9 +140,9 @@ class Webo_Order_Notificaiton_Public {
 			die('Error decoding json');
 		}
 
-		$num_of_days     = is_null($notification) ? null : $notification->num_of_days;
+		$num_of_days    = is_null($notification) ? null : $notification->num_of_days;
 		$popup_interval = is_null($notification) ? null : $notification->popup_interval;
-		$cookie_expiry   = is_null($notification) ? time()+300 : time() + $notification->cookie_expiry;
+		$cookie_expiry  = is_null($notification) ? time()+300 : time() + $notification->cookie_expiry;
 
 		$args = array(
 			'numberposts' => -1,
@@ -177,6 +177,10 @@ class Webo_Order_Notificaiton_Public {
 	 */
 	private function set_products_cookie_on_client()
 	{
+		if ( isset($_COOKIE['won_cookie_expiry'])) {
+			return;
+		}
+
 		$notification_setting = get_option('notification_setting');
 		$notification         = json_decode($notification_setting);
 
@@ -184,9 +188,9 @@ class Webo_Order_Notificaiton_Public {
 			die('Error decoding json');
 		}
 
-		$num_of_days     = is_null($notification) ? null : $notification->num_of_days;
-		$popup_interval  = is_null($notification) ? null : $notification->popup_interval;
-		$cookie_expiry   = is_null($notification) ? time()+300 : time() + $notification->cookie_expiry;
+		$num_of_days    = is_null($notification) ? 3 : $notification->num_of_days;
+		$popup_interval = is_null($notification) ? null : $notification->popup_interval;
+		$cookie_expiry  = is_null($notification) ? time()+300 : time() + $notification->cookie_expiry;
 
 		$args = array(
 			'numberposts' => -1,
@@ -216,10 +220,12 @@ class Webo_Order_Notificaiton_Public {
 			foreach ($products as $k => $product) {
 				$product_id = $product->get_product_id();
 				$image_url = get_the_post_thumbnail_url($product_id, 'thumbnail');
+				$product_url = get_permalink($product_id);
 				$display_records[$counter]['customer_name'] = $customer_name;
 				$display_records[$counter]['time_ago']      = $time_diff;
 				$display_records[$counter]['product_id']    = $product_id;
 				$display_records[$counter]['product_name']  = $product->get_name();
+				$display_records[$counter]['product_url']   = $product_url;
 				$display_records[$counter]['image_url']     = $image_url;
 				$counter++;
 			}
@@ -228,8 +234,8 @@ class Webo_Order_Notificaiton_Public {
 		$won_site_path =  parse_url(get_option('siteurl'), PHP_URL_PATH);
 		$won_site_host =  parse_url(get_option('siteurl'), PHP_URL_HOST);
 
-		setcookie('won_orders', json_encode($display_records), $cookie_expiry, MY_SPACES_SITE_PATH, MY_SPACES_SITE_HOST);
-
+		setcookie('won_cookie_expiry', $cookie_expiry, $cookie_expiry, $won_site_path, $won_site_host);
+		setcookie('won_orders', json_encode($display_records, JSON_UNESCAPED_SLASHES), $cookie_expiry, $won_site_path, $won_site_host);
 	}
 
 	/**
