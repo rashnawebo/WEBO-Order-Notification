@@ -38,7 +38,7 @@ class Webo_Order_Notificaiton_Activator {
 		$empty_value = get_option('won_notification_setting', 'empty_value');
 		if ( $empty_value == 'empty_value') {
 			$num_of_days    = 3;
-			$popup_interval = time()+300;
+			$popup_interval = 5;
 			$cookie_expiry  = 5;
 
 			$data = array(
@@ -56,7 +56,7 @@ class Webo_Order_Notificaiton_Activator {
 
 			$num_of_days    = is_null($notification) ? 3 : $notification->num_of_days;
 			$popup_interval = is_null($notification) ? null : $notification->popup_interval;
-			$cookie_expiry  = is_null($notification) ? time()+300 : time() + $notification->cookie_expiry;
+			$cookie_expiry  = is_null($notification) ? 5 : $notification->cookie_expiry;
 		}
 
 		$args = array(
@@ -101,8 +101,8 @@ class Webo_Order_Notificaiton_Activator {
 		$won_site_path =  parse_url(get_option('siteurl'), PHP_URL_PATH);
 		$won_site_host =  parse_url(get_option('siteurl'), PHP_URL_HOST);
 
-		setcookie('won_cookie_expiry', $cookie_expiry, $cookie_expiry, $won_site_path, $won_site_host);
-		setcookie('won_orders', json_encode($display_records, JSON_UNESCAPED_SLASHES), $cookie_expiry, $won_site_path, $won_site_host);
+		setcookie('won_cookie_expiry', time() + $cookie_expiry * 60, time() + $cookie_expiry * 60, $won_site_path, $won_site_host);
+		setcookie('won_orders', json_encode($display_records, JSON_UNESCAPED_SLASHES), time() + $cookie_expiry * 60, $won_site_path, $won_site_host);
 	}
 
 }

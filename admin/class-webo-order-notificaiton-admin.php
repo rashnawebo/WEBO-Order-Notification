@@ -107,7 +107,22 @@ class Webo_Order_Notificaiton_Admin {
 	}
 
 	//display template
-	public function webo_order_notificaiton() {
+	public function webo_order_notificaiton()
+	{
+		$empty_value = get_option('won_notification_setting', 'empty_value');
+		if ( $empty_value == 'empty_value') {
+			$num_of_days    = 3;
+			$popup_interval = 5;
+			$cookie_expiry  = 5;
+		} else {
+			$notification_setting = get_option('won_notification_setting');
+			$notification         = json_decode($notification_setting);
+
+			$num_of_days    = is_null($notification) ? 3 : $notification->num_of_days;
+			$popup_interval = is_null($notification) ? 5 : $notification->popup_interval;
+			$cookie_expiry  = is_null($notification) ? 5 : $notification->cookie_expiry;
+		}
+
 		ob_start();
 		include_once WON_PLUGIN_PATH . 'admin/partials/order-notification-template.php';
 		$template = ob_get_contents();
@@ -130,7 +145,7 @@ class Webo_Order_Notificaiton_Admin {
 
 		$data = array(
 			'num_of_days'    => $num_of_days,
-			'cookie_expiry'  => $cookie_expiry * 60,
+			'cookie_expiry'  => $cookie_expiry,
 			'popup_interval' => $popup_interval
 		);
 
