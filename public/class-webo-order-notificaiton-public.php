@@ -159,15 +159,15 @@ class Webo_Order_Notificaiton_Public {
 
 		$customer_orders = get_posts( $args );
 
-		if ($customer_orders) {
-			foreach ($customer_orders as $customer_order) {
+		/* if ($customer_orders) {
+			foreach ($customer_orders as $customer_order) { */
 				ob_start();
 				require( WON_PLUGIN_PATH . 'public/partials/won-notification-template.php');
 				$html = ob_get_contents();
 				ob_end_clean();
 				echo $html;
-			}
-		}
+			/* }
+		} */
 	}
 
 	/**
