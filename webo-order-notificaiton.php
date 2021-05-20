@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       WEBO Order Notification
  * Plugin URI:        https://webo.digital/
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       This plugin is used to display Popup notification about recent orders to increase the conversion.
  * Version:           1.0.0
  * Author:            WEBO Digital
  * Author URI:        https://webo.digital/
@@ -82,6 +82,3 @@ function run_webo_order_notificaiton() {
 }
 run_webo_order_notificaiton();
 
-if ( ! wp_next_scheduled( 'won_send_order_push_notification_event' ) ) {
-	wp_schedule_event( time(), 'won_every_minutes', 'won_send_order_push_notification_event');
-}

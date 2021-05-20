@@ -129,12 +129,12 @@ class Webo_Order_Notificaiton_Admin {
 		}
 
 		$data = array(
-			'num_of_days'   => $num_of_days,
-			'cookie_expiry' => $cookie_expiry * 60,
+			'num_of_days'    => $num_of_days,
+			'cookie_expiry'  => $cookie_expiry * 60,
 			'popup_interval' => $popup_interval
 		);
 
-		$updated = update_option('notification_setting', json_encode($data));
+		$updated = update_option('won_notification_setting', json_encode($data));
 		if ($updated) {
 			$redirect = add_query_arg( 'status', 'success', wp_get_referer() );
 		} else {

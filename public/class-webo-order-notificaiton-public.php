@@ -117,61 +117,16 @@ class Webo_Order_Notificaiton_Public {
 	 */
 	public function webo_order_notificaiton_render_template()
 	{
-		/**
-		 * This function is provided for displaying notification popup on the aite
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Webo_Order_Notificaiton_Loader as all of the hooks are defined
-		 * in that particular class .
-		 *
-		 * Action hooked used: wp_footer
-		 * Inputs $days  Number of days that shows order
-		 * Input $cache_days Number of cache days
-		 *
-		 * The Webo_Order_Notificaiton_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+		ob_start();
+		require( WON_PLUGIN_PATH . 'public/partials/won-notification-template.php');
+		$html = ob_get_contents();
+		ob_end_clean();
+		echo $html;
 
-		$notification_setting = get_option('notification_setting');
-		$notification         = json_decode($notification_setting);
-
-		if (json_last_error() !== JSON_ERROR_NONE) {
-			die('Error decoding json');
-		}
-
-		$num_of_days    = is_null($notification) ? null : $notification->num_of_days;
-		$popup_interval = is_null($notification) ? null : $notification->popup_interval;
-		$cookie_expiry  = is_null($notification) ? time()+300 : time() + $notification->cookie_expiry;
-
-		$args = array(
-			'numberposts' => -1,
-			'post_type'   => wc_get_order_types(),
-			'post_status' => array_keys( wc_get_order_statuses() ),
-			'order'       => 'DESC',
-			'orderby'     => 'date',
-			'date_query'  => array(
-				array(
-					'after' => $num_of_days.' day ago'
-				)
-			)
-		);
-
-		$customer_orders = get_posts( $args );
-
-		/* if ($customer_orders) {
-			foreach ($customer_orders as $customer_order) { */
-				ob_start();
-				require( WON_PLUGIN_PATH . 'public/partials/won-notification-template.php');
-				$html = ob_get_contents();
-				ob_end_clean();
-				echo $html;
-			/* }
-		} */
 	}
 
 	/**
-	 * set cookie of products on client browser
+	 * set cookie of products on client browser if not exist on activation
 	 *
 	 * @return void
 	 */
@@ -181,16 +136,29 @@ class Webo_Order_Notificaiton_Public {
 			return;
 		}
 
-		$notification_setting = get_option('notification_setting');
-		$notification         = json_decode($notification_setting);
+		$empty_value = get_option('won_notification_setting', 'empty_value');
+		if ( $empty_value == 'empty_value') {
+			$num_of_days    = 3;
+			$popup_interval = time()+300;
+			$cookie_expiry  = 5;
 
-		if (json_last_error() !== JSON_ERROR_NONE) {
-			die('Error decoding json');
+			$data = array(
+				'num_of_days'    => $num_of_days,
+				'cookie_expiry'  => $popup_interval,
+				'popup_interval' => $cookie_expiry,
+			);
+			$updated = update_option('won_notification_setting', json_encode($data));
+			if ($updated == false) {
+				exit( sprintf( 'Error activating the plugin. Please try again.' ) );
+			}
+		} else {
+			$notification_setting = get_option('won_notification_setting');
+			$notification         = json_decode($notification_setting);
+
+			$num_of_days    = is_null($notification) ? 3 : $notification->num_of_days;
+			$popup_interval = is_null($notification) ? null : $notification->popup_interval;
+			$cookie_expiry  = is_null($notification) ? time()+300 : time() + $notification->cookie_expiry;
 		}
-
-		$num_of_days    = is_null($notification) ? 3 : $notification->num_of_days;
-		$popup_interval = is_null($notification) ? null : $notification->popup_interval;
-		$cookie_expiry  = is_null($notification) ? time()+300 : time() + $notification->cookie_expiry;
 
 		$args = array(
 			'numberposts' => -1,
@@ -236,69 +204,6 @@ class Webo_Order_Notificaiton_Public {
 
 		setcookie('won_cookie_expiry', $cookie_expiry, $cookie_expiry, $won_site_path, $won_site_host);
 		setcookie('won_orders', json_encode($display_records, JSON_UNESCAPED_SLASHES), $cookie_expiry, $won_site_path, $won_site_host);
-	}
-
-	/**
-	 * Schedule cron intervals
-	 *
-	 * @return schedules
-	 */
-	public function wui_cron_schedules()
-	{
-		$schedules['won_five_minutes'] = array(
-			'interval' => 300,                  // Every five minutes
-			'display'  => __('Five Minutes'),
-		);
-		$schedules['won_two_minutes'] = array(
-			'interval' => 120,                 // Every two minutes
-			'display'  => __('Two Minutes'),
-		);
-		$schedules['won_every_minutes'] = array(
-			'interval' => 60,                    // Every minutes
-			'display'  => __('Every Minutes'),
-		);
-		$schedules['won_every_30_seconds'] = array(
-			'interval' => 30,                    // Every 30 seconds
-			'display'  => __('Every 30 Seconds'),
-		);
-		$schedules['won_every_15_seconds'] = array(
-			'interval' => 15,                    // Every 15 seconds
-			'display'  => __('Every 15 Seconds'),
-		);
-		$schedules['won_every_10_seconds'] = array(
-			'interval' => 10,                    // Every 10 seconds
-			'display'  => __('Every 10 Seconds'),
-		);
-		return $schedules;
-	}
-
-	public function won_send_order_push_notification()
-	{
-		$args = array(
-			'numberposts' => -1,
-			'post_type'   => wc_get_order_types(),
-			'post_status' => array_keys( wc_get_order_statuses() ),
-			'order'       => 'DESC',
-			'orderby'     => 'date',
-			'date_query'  => array(
-				array(
-					'after' => '1 day ago'
-				)
-			)
-		);
-
-		$customer_orders = get_posts( $args );
-
-
-		if ($customer_orders) {
-			foreach ($customer_orders as $customer_order) {
-				ob_start();
-				require( WON_PLUGIN_PATH . 'public/partials/won-notification-template.php');
-				$html = ob_get_contents();
-				ob_end_clean();
-				echo $html;
-			}
-		}
 	}
 
 }

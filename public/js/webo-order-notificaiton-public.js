@@ -4,27 +4,29 @@
 	var slideUpNotification = function(){
 		$(".won.webo-order-notification").slideUp('slow', function() {
             var cook        = getCookie('won_orders');
+            if (typeof(cook) === 'undefined' ) {
+                return;
+            } else {
+                let decoded_str = decodeURIComponent(cook);
+                let json_obj    = JSON.parse(decoded_str);
+                var obj_length  = json_obj.length;
+                var random_int  = Math.floor(Math.random() * obj_length)
 
-            let decoded_str = decodeURIComponent(cook);
-            let json_obj    = JSON.parse(decoded_str);
-            var obj_length  = json_obj.length;
-            var random_int  = Math.floor(Math.random() * obj_length)
-
-            var popup_html = '<a class="won-product-url" href="' + json_obj[random_int].product_url + '" target="_blank">' +
-                            '<div class="won-notification">' +
-                                '<div class="won-product-image">' +
-                                    '<img class="won-product-img" src="' + json_obj[random_int].image_url +'">' +
+                var popup_html = '<a class="won-product-url" href="' + json_obj[random_int].product_url + '" target="_blank">' +
+                                '<div class="won-notification">' +
+                                    '<div class="won-product-image">' +
+                                        '<img class="won-product-img" src="' + json_obj[random_int].image_url +'">' +
+                                    '</div>' +
+                                    '<div class="won-order-content">' +
+                                        '<p class="won-billing-name">' + json_obj[random_int].customer_name + ' recently purchased</p>' +
+                                        '<p class="won-product-name" ><b>' + json_obj[random_int].product_name + '</b></p>' +
+                                        '<small>About <span class="won-time-diff">' + json_obj[random_int].time_ago + '</span> ago</small>' +
+                                    '</div>' +
                                 '</div>' +
-                                '<div class="won-order-content">' +
-                                    '<p class="won-billing-name">' + json_obj[random_int].customer_name + ' recently purchased</p>' +
-                                    '<p class="won-product-name" ><b>' + json_obj[random_int].product_name + '</b></p>' +
-                                    '<small>About <span class="won-time-diff">' + json_obj[random_int].time_ago + '</span> ago</small>' +
-                                '</div>' +
-                            '</div>' +
-                        '</a>' +
-                        '<span class="won-close">x</span>';
-            $('.webo-order-notification').html(popup_html);
-
+                            '</a>' +
+                            '<span class="won-close">x</span>';
+                $('.webo-order-notification').html(popup_html);
+            }
         });
 	}
     var slideDownNotification = function() {

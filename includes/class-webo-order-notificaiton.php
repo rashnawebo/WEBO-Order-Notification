@@ -178,8 +178,6 @@ class Webo_Order_Notificaiton {
 
 		$this->loader->add_action( 'init', $plugin_public, 'webo_order_notificaiton_init_action' );
 		$this->loader->add_action( 'wp_footer', $plugin_public, 'webo_order_notificaiton_render_template' );
-		// $this->loader->add_filter( 'cron_schedules', $plugin_public, 'wui_cron_schedules' );
-		// $this->loader->add_action( 'won_send_order_push_notification_event', $plugin_public, 'won_send_order_push_notification' );
 	}
 
 	/**

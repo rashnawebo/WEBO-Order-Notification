@@ -29,8 +29,14 @@ class Webo_Order_Notificaiton_Deactivator {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function deactivate() {
+	public static function deactivate()
+	{
+		//delete cookie
+		$won_site_path =  parse_url(get_option('siteurl'), PHP_URL_PATH);
+		$won_site_host =  parse_url(get_option('siteurl'), PHP_URL_HOST);
 
+		setcookie('won_cookie_expiry', null, -3600, $won_site_path, $won_site_host);
+		setcookie('won_orders', null, -3600, $won_site_path, $won_site_host);
 	}
 
 }
