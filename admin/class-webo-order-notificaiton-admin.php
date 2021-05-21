@@ -135,7 +135,6 @@ class Webo_Order_Notificaiton_Admin {
 	{
 		$num_of_days    = sanitize_text_field($_POST['num_of_days']);
 		$cookie_expiry  = sanitize_text_field($_POST['cookie_expiry']);
-		$popup_interval = sanitize_text_field($_POST['popup_interval']);
 
 		if ( ! is_numeric($num_of_days) || ! is_numeric($cookie_expiry) || ! is_numeric($popup_interval)) {
 			$redirect = add_query_arg( 'status', 'validation_error', wp_get_referer() );
@@ -146,7 +145,7 @@ class Webo_Order_Notificaiton_Admin {
 		$data = array(
 			'num_of_days'    => $num_of_days,
 			'cookie_expiry'  => $cookie_expiry,
-			'popup_interval' => $popup_interval
+			'popup_interval' => 7000
 		);
 
 		$updated = update_option('won_notification_setting', json_encode($data));

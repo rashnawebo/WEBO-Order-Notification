@@ -96,8 +96,7 @@ class Webo_Order_Notificaiton_Public {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/webo-order-notificaiton-public.js', array( 'jquery' ), $this->version, false );
-
+		wp_enqueue_script( 'won_notification_js', plugin_dir_url( __FILE__ ) . 'js/webo-order-notificaiton-public.js', array( 'jquery' ), $this->version, true );
 	}
 
 	/**

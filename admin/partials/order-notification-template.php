@@ -20,11 +20,6 @@
         	<input type="number" id="cookie_expiry" name="cookie_expiry" value="<?php echo $cookie_expiry; ?>" class="won-form-input" placeholder="Cookie expiry time in minutes"><br><br>
         </div>
 
-        <div class="won-form-group">
-        	<label for="popup_interval">Set Popup Interval <small>(in seconds)</small> :</label><br>
-        	<input type="number" id="popup_interval" name="popup_interval" value="<?php echo $popup_interval; ?>" class="won-form-input" placeholder="Popup interval in seconds"><br><br>
-        </div>
-
         <input type="hidden" name="action" value="won_save_notification_setting">
         <input type="submit" value="Submit" class="button button-primary">
     </form>
